@@ -1,0 +1,38 @@
+[
+  {
+    "name": "${task_definition_name}",
+    "image": "${docker_image_url}",
+    "essential" : true,
+    "environment": [
+      {
+        "name": "component",
+        "value": "${application_name}"
+      },
+      {
+        "name": "region",
+        "value": "${region}"
+      },
+      {
+        "name": "SPRING_PROFILES_ACTIVE",
+        "value": "${env}"
+      }
+    ],
+    "portMappings": [{
+      "containerPort" : 8080,
+      "hostPort" : 8080,
+      "protocol" : "HTTP"
+    }],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${application_name}-${env}-Log-Group",
+        "awslogs-region" : "${region}",
+        "awslogs-stream-prefix": "${awslogs-stream-prefix}"
+      }
+    },
+    "memory": 2048,
+    "cpu" : 512,
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": "FARGATE"
+  }
+]

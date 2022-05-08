@@ -1,12 +1,5 @@
 # This Terraform File is Responsible to create the entire VPC
 
-#----------------------
-# Provider Block
-#----------------------
-provider "aws" {
-  region = var.region
-}
-
 #--------------------------------------------------
 # Locals can be used anywhere in the Configurations
 #--------------------------------------------------

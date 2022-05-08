@@ -4,11 +4,11 @@
 #--------------------------------------------------------------------------
 
 output "vpc_id" {
-  value = data.terraform_remote_state.dealer-service-dev.outputs.vpc_id
+  value = data.terraform_remote_state.remote_state_vpc_output.outputs.vpc_id
 }
 
 output "vpc_cidr_block" {
-  value = data.terraform_remote_state.dealer-service-dev.outputs.vpc_cidr_block
+  value = data.terraform_remote_state.remote_state_vpc_output.outputs.vpc_cidr_block
 }
 
 output "ecs_alb_listener_arn" {
@@ -32,9 +32,9 @@ output "ecs_domain_name" {
 }
 
 output "ecs_public_subnets" {
-  value = data.terraform_remote_state.dealer-service-dev.outputs.public_subnets
+  value = data.terraform_remote_state.remote_state_vpc_output.outputs.public_subnets
 }
 
 output "ecs_private_subnets" {
-  value = data.terraform_remote_state.dealer-service-dev.outputs.private_subnets
+  value = data.terraform_remote_state.remote_state_vpc_output.outputs.private_subnets
 }

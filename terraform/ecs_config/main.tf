@@ -19,10 +19,10 @@ locals {
 
 #-----------------------------------------------------------------------
 # Below configuration is to read the values from remote Infrastructure
-# State File from S3 Bucket
+# State File from S3 Bucket of VPC Output defined
 #-----------------------------------------------------------------------
 
-data "terraform_remote_state" "dealer-service-dev" {
+data "terraform_remote_state" "remote_state_vpc_output" {
   backend = "s3"
   config = {
     region = var.region
@@ -59,7 +59,7 @@ resource "aws_alb" "dealer-service-cluster-alb" {
   // In Order to Load Balancer Accessible from Public Network , will have to create Security Group Accordingly
   security_groups = [aws_security_group.ecs_alb_security_group.id]
   // Usually ALB suitable to be Multi AZ, will have to associate all the Subnets to ALB
-  subnets = split(",",join(",",data.terraform_remote_state.dealer-service-dev.outputs.public_subnets))
+  subnets = split(",",join(",",data.terraform_remote_state.remote_state_vpc_output.outputs.public_subnets))
 
   tags = {
     component = local.component
@@ -93,7 +93,7 @@ resource "aws_alb_target_group" "ecs_default_target_group" {
   name = "${var.ecs_cluster_name}-TG"
   port = 80
   protocol = "HTTP"
-  vpc_id = data.terraform_remote_state.dealer-service-dev.outputs.vpc_id
+  vpc_id = data.terraform_remote_state.remote_state_vpc_output.outputs.vpc_id
   target_type = "ip"
 
   health_check {
